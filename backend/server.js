@@ -1,18 +1,17 @@
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config();
-const axios = require('axios'); // for API calls later
+const morgan = require('morgan');
 
 const app = express();
+app.use(morgan('dev'));
 app.use(cors());
+app.options('*', cors());
 app.use(express.json());
 
-app.post('/generate-video', async (req, res) => {
-  const { prompt } = req.body;
-
-  // Placeholder video for now
+app.post('/generate-video', (req, res) => {
+  const { prompt } = req.body || {};
   res.json({ videoUrl: 'https://via.placeholder.com/300x200.png?text=Video+Preview' });
 });
 
-const PORT = 5000;
-app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
+const PORT = 8080;
+app.listen(PORT, '127.0.0.1', () => console.log(`Backend running on http://127.0.0.1:${PORT}`));
