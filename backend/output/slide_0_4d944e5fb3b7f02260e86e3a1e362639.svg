@@ -1,0 +1,44 @@
+
+      <svg width="1024" height="1024" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#ffd700;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#ffed4e;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#bg)"/>
+        <!-- Penny -->
+        <circle cx="200" cy="300" r="50" fill="#cd7f32" stroke="#8b4513" stroke-width="3"/>
+        <text x="200" y="290" font-family="Arial, sans-serif" font-size="24" fill="white" text-anchor="middle">1¢</text>
+        <text x="200" y="310" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle">Penny</text>
+        <text x="200" y="380" font-family="Arial, sans-serif" font-size="20" fill="white" text-anchor="middle">1 cent</text>
+        <!-- Nickel -->
+        <circle cx="400" cy="300" r="55" fill="#c0c0c0" stroke="#808080" stroke-width="3"/>
+        <text x="400" y="290" font-family="Arial, sans-serif" font-size="24" fill="black" text-anchor="middle">5¢</text>
+        <text x="400" y="310" font-family="Arial, sans-serif" font-size="16" fill="black" text-anchor="middle">Nickel</text>
+        <text x="400" y="380" font-family="Arial, sans-serif" font-size="20" fill="white" text-anchor="middle">5 cents</text>
+        <!-- Dime -->
+        <circle cx="600" cy="300" r="45" fill="#c0c0c0" stroke="#808080" stroke-width="3"/>
+        <text x="600" y="290" font-family="Arial, sans-serif" font-size="20" fill="black" text-anchor="middle">10¢</text>
+        <text x="600" y="310" font-family="Arial, sans-serif" font-size="14" fill="black" text-anchor="middle">Dime</text>
+        <text x="600" y="380" font-family="Arial, sans-serif" font-size="20" fill="white" text-anchor="middle">10 cents</text>
+        <!-- Quarter -->
+        <circle cx="800" cy="300" r="60" fill="#c0c0c0" stroke="#808080" stroke-width="3"/>
+        <text x="800" y="290" font-family="Arial, sans-serif" font-size="24" fill="black" text-anchor="middle">25¢</text>
+        <text x="800" y="310" font-family="Arial, sans-serif" font-size="16" fill="black" text-anchor="middle">Quarter</text>
+        <text x="800" y="380" font-family="Arial, sans-serif" font-size="20" fill="white" text-anchor="middle">25 cents</text>
+        <!-- Dollar Bill -->
+        <rect x="300" y="500" width="120" height="60" fill="#90ee90" stroke="#228b22" stroke-width="2"/>
+        <text x="360" y="520" font-family="Arial, sans-serif" font-size="20" fill="black" text-anchor="middle">$1</text>
+        <text x="360" y="540" font-family="Arial, sans-serif" font-size="12" fill="black" text-anchor="middle">ONE DOLLAR</text>
+        <text x="300" y="600" font-family="Arial, sans-serif" font-size="20" fill="white" text-anchor="middle">1 dollar = 100 cents</text>
+        <!-- Five Dollar Bill -->
+        <rect x="500" y="500" width="120" height="60" fill="#ffb6c1" stroke="#ff69b4" stroke-width="2"/>
+        <text x="560" y="520" font-family="Arial, sans-serif" font-size="20" fill="black" text-anchor="middle">$5</text>
+        <text x="560" y="540" font-family="Arial, sans-serif" font-size="12" fill="black" text-anchor="middle">FIVE DOLLARS</text>
+        <text x="500" y="600" font-family="Arial, sans-serif" font-size="20" fill="white" text-anchor="middle">5 dollars = 500 cents</text>
+        <text x="512" y="700" font-family="Arial, sans-serif" font-size="48" fill="white" text-anchor="middle">
+          Learning Money!
+        </text>
+      </svg>
+    

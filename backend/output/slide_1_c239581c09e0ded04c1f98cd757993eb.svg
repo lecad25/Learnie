@@ -1,0 +1,20 @@
+
+        <svg width="1024" height="1024" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#000428;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#004e92;stop-opacity:1" />
+            </linearGradient>
+            <radialGradient id="sun" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" style="stop-color:#ffff00;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#ff8c00;stop-opacity:1" />
+            </radialGradient>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#bg)"/>
+          <circle cx="512" cy="512" r="150" fill="url(#sun)"/>
+          <path d="M362,512 L462,512 M562,512 L662,512 M512,362 L512,462 M512,562 L512,662" stroke="#ffff00" stroke-width="8" fill="none"/>
+          <text x="512" y="750" font-family="Arial, sans-serif" font-size="48" fill="white" text-anchor="middle">
+            The Sun
+          </text>
+        </svg>
+      

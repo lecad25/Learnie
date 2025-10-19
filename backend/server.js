@@ -10,14 +10,14 @@ const __dirname = path.dirname(__filename);
 
 app.use(express.json());
 
-// serve generated videos
+// serve generated videos and HTML files
 app.use("/videos", express.static(path.join(__dirname, "output")));
 
 // quick health route
 app.get("/health", (req, res) => res.json({ ok: true }));
 
 // mount the generator route
-app.use("/generate", generateRoute);
+app.use("/generate-video", generateRoute);
 
 // catch-all to SEE what's being hit
 app.use((req, res) => {

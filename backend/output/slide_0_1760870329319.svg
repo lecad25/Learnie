@@ -1,0 +1,23 @@
+
+        <svg width="1024" height="1024" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#87ceeb;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#90ee90;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#bg)"/>
+          <rect x="200" y="600" width="80" height="200" fill="#8b4513"/>
+          <path d="M200,600 Q240,500 280,600 Q240,700 200,600" fill="#228b22"/>
+          <rect x="400" y="650" width="80" height="150" fill="#8b4513"/>
+          <path d="M400,650 Q440,550 480,650 Q440,750 400,650" fill="#228b22"/>
+          <rect x="600" y="620" width="80" height="180" fill="#8b4513"/>
+          <path d="M600,620 Q640,520 680,620 Q640,720 600,620" fill="#228b22"/>
+          <text x="300" y="500" font-family="Arial, sans-serif" font-size="40" fill="white" text-anchor="middle">🐻</text>
+          <text x="500" y="550" font-family="Arial, sans-serif" font-size="40" fill="white" text-anchor="middle">🦌</text>
+          <text x="700" y="520" font-family="Arial, sans-serif" font-size="40" fill="white" text-anchor="middle">🐦</text>
+          <text x="512" y="850" font-family="Arial, sans-serif" font-size="36" fill="white" text-anchor="middle">
+            Forest Habitat
+          </text>
+        </svg>
+      

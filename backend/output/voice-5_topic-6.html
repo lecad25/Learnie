@@ -1,0 +1,477 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔷 Learning Shapes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .container h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            margin: 20px 0 30px 0;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+        }
+        .slide {
+            display: none;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 10px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .slide.active {
+            display: block;
+        }
+        .slide img {
+            max-width: 100%;
+            max-height: 60vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            display: block;
+            margin: 0 auto;
+        }
+        .slide h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        .slide p {
+            font-size: 1.2rem;
+            line-height: 1.5;
+            margin: 15px 0;
+        }
+        .controls {
+            margin: 20px 0;
+        }
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin: 0 10px;
+            transition: transform 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Custom Audio Player Styles */
+        .audio-player-container {
+            margin: 20px 0;
+        }
+        
+        .audio-player {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .play-pause-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 18px;
+        }
+        
+        .play-pause-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .audio-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .time-display {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+        }
+        
+        .progress-container {
+            width: 100%;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+        
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 120px;
+        }
+        
+        .volume-control span {
+            font-size: 16px;
+        }
+        
+        .volume-control input[type="range"] {
+            width: 80px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        .volume-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .volume-control input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .audio-description {
+            text-align: center;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 5px;
+        }
+        .slide-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1.2rem;
+        }
+        .voice-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 1.2rem;
+        }
+        .script-display {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔷 Learning Shapes</h1>
+        
+        <div class="voice-info">
+            <strong>Voice:</strong> Chef Mia
+        </div>
+        
+        
+        <div class="audio-player-container">
+            <div class="audio-player">
+                <div class="audio-controls">
+                    <button class="play-pause-btn" id="playPauseBtn" onclick="togglePlayPause()">
+                        <span id="playIcon">▶️</span>
+                    </button>
+                    <div class="audio-info">
+                        <div class="time-display">
+                            <span id="currentTime">0:00</span> / <span id="duration">0:00</span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progressBar" onclick="seekTo(event)">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="volume-control">
+                        <span>🔊</span>
+                        <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1" onchange="setVolume(this.value)">
+                    </div>
+                </div>
+            </div>
+            <audio id="audioPlayer" preload="metadata">
+                <source src="/videos/audio_voice-5_topic-6.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        
+        
+        <div class="controls">
+            <button class="btn" onclick="previousSlide()" id="prevBtn">Previous</button>
+            <button class="btn" onclick="nextSlide()" id="nextBtn">Next</button>
+            
+            <button class="btn" onclick="toggleAudio()" id="audioBtn">Play Audio</button>
+            
+            <button class="btn" onclick="toggleScript()" id="scriptBtn">Show Script</button>
+        </div>
+        
+        <div class="slide-counter">
+            <span id="currentSlide">1</span> / <span id="totalSlides">2</span>
+        </div>
+        
+        
+            <div class="slide active" id="slide-0">
+                <h2>Circle</h2>
+                <img src="data:image/svg+xml;base64,CiAgICAgIDxzdmcgd2lkdGg9IjEwMjQiIGhlaWdodD0iMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgICAgICA8ZGVmcz4KICAgICAgICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojNjY3ZWVhO3N0b3Atb3BhY2l0eToxIiAvPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM3NjRiYTI7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICAgICAgICA8L2xpbmVhckdyYWRpZW50PgogICAgICAgIDwvZGVmcz4KICAgICAgICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2JnKSIvPgogICAgICAgIDxjaXJjbGUgY3g9IjUxMiIgY3k9IjQwMCIgcj0iMTAwIiBmaWxsPSJ3aGl0ZSIgb3BhY2l0eT0iMC4zIi8+CiAgICAgICAgPHRleHQgeD0iNTEyIiB5PSI1MDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSI0OCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJib2xkIj4KICAgICAgICAgIPCfk5oKICAgICAgICA8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iNTEyIiB5PSI3MDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPgogICAgICAgICAgRWR1Y2F0aW9uYWwgQ29udGVudAogICAgICAgIDwvdGV4dD4KICAgICAgICA8dGV4dCB4PSI1MTIiIHk9Ijc1MCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+CiAgICAgICAgICBBIGxhcmdlIGNpcmNsZSB3aXRoIHRoZSB3b3JkICdDaXJjbGUnIHdyaXR0ZW4gYmVsby4uLgogICAgICAgIDwvdGV4dD4KICAgICAgPC9zdmc+CiAgICA=" alt="Circle">
+                <p>This is a circle. A circle is round like a ball. It has no corners or edges.</p>
+            </div>
+        
+            <div class="slide " id="slide-1">
+                <h2>Square</h2>
+                <img src="data:image/svg+xml;base64,CiAgICAgIDxzdmcgd2lkdGg9IjEwMjQiIGhlaWdodD0iMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgICAgICA8ZGVmcz4KICAgICAgICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojNjY3ZWVhO3N0b3Atb3BhY2l0eToxIiAvPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM3NjRiYTI7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICAgICAgICA8L2xpbmVhckdyYWRpZW50PgogICAgICAgIDwvZGVmcz4KICAgICAgICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2JnKSIvPgogICAgICAgIDxjaXJjbGUgY3g9IjUxMiIgY3k9IjQwMCIgcj0iMTAwIiBmaWxsPSJ3aGl0ZSIgb3BhY2l0eT0iMC4zIi8+CiAgICAgICAgPHRleHQgeD0iNTEyIiB5PSI1MDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSI0OCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJib2xkIj4KICAgICAgICAgIPCfk5oKICAgICAgICA8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iNTEyIiB5PSI3MDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPgogICAgICAgICAgRWR1Y2F0aW9uYWwgQ29udGVudAogICAgICAgIDwvdGV4dD4KICAgICAgICA8dGV4dCB4PSI1MTIiIHk9Ijc1MCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+CiAgICAgICAgICBBIGxhcmdlIHNxdWFyZSB3aXRoIHRoZSB3b3JkICdTcXVhcmUnIHdyaXR0ZW4gYmVsby4uLgogICAgICAgIDwvdGV4dD4KICAgICAgPC9zdmc+CiAgICA=" alt="Square">
+                <p>This is a square. A square has 4 equal sides and 4 corners. It looks like a box.</p>
+            </div>
+        
+        
+        <div class="script-display" id="scriptDisplay" style="display: none;">
+            <h3>Narration Script:</h3>
+            <p>Let's learn about shapes! This is a circle. A circle is round like a ball. It has no corners or edges. This is a square. A square has 4 equal sides and 4 corners. It looks like a box.</p>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 2;
+        let scriptVisible = false;
+        let isPlaying = false;
+        const hasAudio = true;
+        const audioPlayer = document.getElementById('audioPlayer');
+        
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach(slide => slide.classList.remove('active'));
+            
+            if (n >= totalSlides) currentSlide = 0;
+            if (n < 0) currentSlide = totalSlides - 1;
+            
+            slides[currentSlide].classList.add('active');
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+            
+            // Update button states
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            if (prevBtn) prevBtn.disabled = currentSlide === 0;
+            if (nextBtn) nextBtn.disabled = currentSlide === totalSlides - 1;
+            
+            // Audio will be handled by the custom audio player
+        }
+        
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        }
+        
+        function previousSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        }
+        
+        
+        function toggleAudio() {
+            const audioBtn = document.getElementById('audioBtn');
+            
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                audioBtn.textContent = 'Pause Audio';
+            } else {
+                audioPlayer.pause();
+                audioBtn.textContent = 'Play Audio';
+            }
+        }
+        
+        
+        function toggleScript() {
+            const scriptDisplay = document.getElementById('scriptDisplay');
+            const scriptBtn = document.getElementById('scriptBtn');
+            
+            if (scriptVisible) {
+                scriptDisplay.style.display = 'none';
+                scriptBtn.textContent = 'Show Script';
+                scriptVisible = false;
+            } else {
+                scriptDisplay.style.display = 'block';
+                scriptBtn.textContent = 'Hide Script';
+                scriptVisible = true;
+            }
+        }
+        
+        // Keyboard controls
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+            if (e.key === ' ') {
+                e.preventDefault();
+                if (hasAudio) {
+                    toggleAudio();
+                }
+            }
+            if (e.key === 's' || e.key === 'S') {
+                e.preventDefault();
+                toggleScript();
+            }
+        });
+        
+        // Custom Audio Player Functions
+        function togglePlayPause() {
+            const audioPlayer = document.getElementById('audioPlayer');
+            const playIcon = document.getElementById('playIcon');
+            
+            if (isPlaying) {
+                audioPlayer.pause();
+                playIcon.textContent = '▶️';
+                isPlaying = false;
+            } else {
+                audioPlayer.play();
+                playIcon.textContent = '⏸️';
+                isPlaying = true;
+            }
+        }
+        
+        function seekTo(event) {
+            const audioPlayer = document.getElementById('audioPlayer');
+            const progressBar = document.getElementById('progressBar');
+            const rect = progressBar.getBoundingClientRect();
+            const clickX = event.clientX - rect.left;
+            const width = rect.width;
+            const percentage = clickX / width;
+            const newTime = percentage * audioPlayer.duration;
+            
+            audioPlayer.currentTime = newTime;
+        }
+        
+        function setVolume(value) {
+            const audioPlayer = document.getElementById('audioPlayer');
+            audioPlayer.volume = value;
+        }
+        
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return mins + ':' + (secs < 10 ? '0' : '') + secs;
+        }
+        
+        // Initialize custom audio player
+        if (hasAudio && audioPlayer) {
+            const playIcon = document.getElementById('playIcon');
+            const currentTimeEl = document.getElementById('currentTime');
+            const durationEl = document.getElementById('duration');
+            const progressFill = document.getElementById('progressFill');
+            
+            audioPlayer.addEventListener('loadedmetadata', function() {
+                if (durationEl) durationEl.textContent = formatTime(audioPlayer.duration);
+            });
+            
+            audioPlayer.addEventListener('timeupdate', function() {
+                if (currentTimeEl) currentTimeEl.textContent = formatTime(audioPlayer.currentTime);
+                if (progressFill) {
+                    const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                    progressFill.style.width = progress + '%';
+                }
+                
+                // Auto-advance slides based on audio progress
+                const slideDuration = audioPlayer.duration / totalSlides;
+                const newSlide = Math.floor(audioPlayer.currentTime / slideDuration);
+                if (newSlide !== currentSlide && newSlide < totalSlides) {
+                    currentSlide = newSlide;
+                    showSlide(currentSlide);
+                }
+            });
+            
+            audioPlayer.addEventListener('ended', function() {
+                if (playIcon) playIcon.textContent = '▶️';
+                isPlaying = false;
+            });
+        } else {
+            // Fallback: Auto-advance slides every 15 seconds
+            setInterval(() => {
+                if (currentSlide < totalSlides - 1) {
+                    nextSlide();
+                }
+            }, 15000);
+        }
+        
+        // Initialize
+        showSlide(0);
+        
+        // Load voices when they become available
+    </script>
+</body>
+</html>

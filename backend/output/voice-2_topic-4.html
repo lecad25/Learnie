@@ -1,0 +1,522 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍕 Learning Fractions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .slide {
+            display: none;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .slide.active {
+            display: block;
+        }
+        .slide img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        .slide h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .slide p {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            margin: 20px 0;
+        }
+        .controls {
+            margin: 20px 0;
+        }
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin: 0 10px;
+            transition: transform 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Custom Audio Player Styles */
+        .audio-player-container {
+            margin: 20px 0;
+        }
+        
+        .audio-player {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .play-pause-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 18px;
+        }
+        
+        .play-pause-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .audio-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .time-display {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+        }
+        
+        .progress-container {
+            width: 100%;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+        
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 120px;
+        }
+        
+        .volume-control span {
+            font-size: 16px;
+        }
+        
+        .volume-control input[type="range"] {
+            width: 80px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        .volume-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .volume-control input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .audio-description {
+            text-align: center;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 5px;
+        }
+        .slide-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1.2rem;
+        }
+        .voice-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 1.2rem;
+        }
+        .script-display {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍕 Learning Fractions</h1>
+        
+        <div class="voice-info">
+            <strong>Voice:</strong> Coach Max
+        </div>
+        
+        
+        <div class="audio-player-container">
+            <div class="audio-player">
+                <div class="audio-controls">
+                    <button class="play-pause-btn" id="playPauseBtn" onclick="togglePlayPause()">
+                        <span id="playIcon">▶️</span>
+                    </button>
+                    <div class="audio-info">
+                        <div class="time-display">
+                            <span id="currentTime">0:00</span> / <span id="duration">0:00</span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progressBar" onclick="seekTo(event)">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="volume-control">
+                        <span>🔊</span>
+                        <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1" onchange="setVolume(this.value)">
+                    </div>
+                </div>
+                <div class="audio-description">
+                    🎵 Professional voice narration
+                </div>
+            </div>
+            <audio id="audioPlayer" preload="metadata">
+                <source src="/videos/audio_voice-2_topic-4.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        
+        
+        <div class="controls">
+            <button class="btn" onclick="previousSlide()" id="prevBtn">Previous</button>
+            <button class="btn" onclick="nextSlide()" id="nextBtn">Next</button>
+            
+            <button class="btn" onclick="toggleAudio()" id="audioBtn">Play Audio</button>
+            
+            <button class="btn" onclick="toggleScript()" id="scriptBtn">Show Script</button>
+        </div>
+        
+        <div class="slide-counter">
+            <span id="currentSlide">1</span> / <span id="totalSlides">3</span>
+        </div>
+        
+        
+            <div class="slide active" id="slide-0">
+                <h2>What is a Fraction?</h2>
+                <img src="data:image/svg+xml;base64,CiAgICAgIDxzdmcgd2lkdGg9IjEwMjQiIGhlaWdodD0iMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgICAgICA8ZGVmcz4KICAgICAgICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojNGZhY2ZlO3N0b3Atb3BhY2l0eToxIiAvPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMwMGYyZmU7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICAgICAgICA8L2xpbmVhckdyYWRpZW50PgogICAgICAgICAgPG1hcmtlciBpZD0iYXJyb3doZWFkIiBtYXJrZXJXaWR0aD0iMTAiIG1hcmtlckhlaWdodD0iNyIgcmVmWD0iOSIgcmVmWT0iMy41IiBvcmllbnQ9ImF1dG8iPgogICAgICAgICAgICA8cG9seWdvbiBwb2ludHM9IjAgMCwgMTAgMy41LCAwIDciIGZpbGw9IndoaXRlIi8+CiAgICAgICAgICA8L21hcmtlcj4KICAgICAgICA8L2RlZnM+CiAgICAgICAgPHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNiZykiLz4KICAgICAgICA8Y2lyY2xlIGN4PSI1MTIiIGN5PSI1MTIiIHI9IjMwMCIgZmlsbD0iI2ZmZDkzZCIgc3Ryb2tlPSIjZmY2YjZiIiBzdHJva2Utd2lkdGg9IjgiLz4KICAgICAgICA8Y2lyY2xlIGN4PSI1MTIiIGN5PSI1MTIiIHI9IjMwMCIgZmlsbD0iI2ZmZDkzZCIgc3Ryb2tlPSIjZmY2YjZiIiBzdHJva2Utd2lkdGg9IjgiLz4KICAgICAgICAKICAgICAgICA8Y2lyY2xlIGN4PSI0MDAiIGN5PSI0MDAiIHI9IjEyIiBmaWxsPSIjZmY2YjZiIi8+CiAgICAgICAgPGNpcmNsZSBjeD0iNjI0IiBjeT0iNDAwIiByPSIxMiIgZmlsbD0iI2ZmNmI2YiIvPgogICAgICAgIDxjaXJjbGUgY3g9IjQwMCIgY3k9IjYyNCIgcj0iMTIiIGZpbGw9IiNmZjZiNmIiLz4KICAgICAgICA8Y2lyY2xlIGN4PSI2MjQiIGN5PSI2MjQiIHI9IjEyIiBmaWxsPSIjZmY2YjZiIi8+CiAgICAgICAgPGNpcmNsZSBjeD0iNTEyIiBjeT0iNTEyIiByPSIxMiIgZmlsbD0iI2ZmNmI2YiIvPgogICAgICAgIDx0ZXh0IHg9IjUxMiIgeT0iMjAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNzIiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0iYm9sZCI+CiAgICAgICAgICAxLzEKICAgICAgICA8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iNTEyIiB5PSI4NTAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPgogICAgICAgICAgUGl6emEgRnJhY3Rpb25zCiAgICAgICAgPC90ZXh0PgogICAgICA8L3N2Zz4KICAgIA==" alt="What is a Fraction?">
+                <p>A fraction shows parts of a whole. Look at this pizza - it's one whole pizza. When we cut it into equal pieces, each piece is a fraction.</p>
+            </div>
+        
+            <div class="slide " id="slide-1">
+                <h2>Cutting in Half</h2>
+                <img src="data:image/svg+xml;base64,CiAgICAgIDxzdmcgd2lkdGg9IjEwMjQiIGhlaWdodD0iMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgICAgICA8ZGVmcz4KICAgICAgICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojNGZhY2ZlO3N0b3Atb3BhY2l0eToxIiAvPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMwMGYyZmU7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICAgICAgICA8L2xpbmVhckdyYWRpZW50PgogICAgICAgICAgPG1hcmtlciBpZD0iYXJyb3doZWFkIiBtYXJrZXJXaWR0aD0iMTAiIG1hcmtlckhlaWdodD0iNyIgcmVmWD0iOSIgcmVmWT0iMy41IiBvcmllbnQ9ImF1dG8iPgogICAgICAgICAgICA8cG9seWdvbiBwb2ludHM9IjAgMCwgMTAgMy41LCAwIDciIGZpbGw9IndoaXRlIi8+CiAgICAgICAgICA8L21hcmtlcj4KICAgICAgICA8L2RlZnM+CiAgICAgICAgPHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNiZykiLz4KICAgICAgICA8Y2lyY2xlIGN4PSI1MTIiIGN5PSI1MTIiIHI9IjMwMCIgZmlsbD0iI2ZmZDkzZCIgc3Ryb2tlPSIjZmY2YjZiIiBzdHJva2Utd2lkdGg9IjgiLz4KICAgICAgICA8cGF0aCBkPSJNNTEyLDIwMCBMNTEyLDgyNCBNMjAwLDUxMiBMODI0LDUxMiIgc3Ryb2tlPSIjZmY2YjZiIiBzdHJva2Utd2lkdGg9IjgiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8cGF0aCBkPSJNMjAwLDIwMCBMODI0LDIwMCBMODI0LDUxMiBMMjAwLDUxMiBaIiBmaWxsPSIjZmY2YjZiIiBvcGFjaXR5PSIwLjMiLz4KICAgICAgICA8Y2lyY2xlIGN4PSI0MDAiIGN5PSI0MDAiIHI9IjEyIiBmaWxsPSIjZmY2YjZiIi8+CiAgICAgICAgPGNpcmNsZSBjeD0iNjI0IiBjeT0iNDAwIiByPSIxMiIgZmlsbD0iI2ZmNmI2YiIvPgogICAgICAgIDxjaXJjbGUgY3g9IjQwMCIgY3k9IjYyNCIgcj0iMTIiIGZpbGw9IiNmZjZiNmIiLz4KICAgICAgICA8Y2lyY2xlIGN4PSI2MjQiIGN5PSI2MjQiIHI9IjEyIiBmaWxsPSIjZmY2YjZiIi8+CiAgICAgICAgPGNpcmNsZSBjeD0iNTEyIiBjeT0iNTEyIiByPSIxMiIgZmlsbD0iI2ZmNmI2YiIvPgogICAgICAgIDx0ZXh0IHg9IjUxMiIgeT0iMjAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNzIiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0iYm9sZCI+CiAgICAgICAgICAxLzIKICAgICAgICA8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iNTEyIiB5PSI4NTAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPgogICAgICAgICAgUGl6emEgRnJhY3Rpb25zCiAgICAgICAgPC90ZXh0PgogICAgICA8L3N2Zz4KICAgIA==" alt="Cutting in Half">
+                <p>Now I'm cutting the pizza in half. Each piece is 1/2. The 2 means 2 total pieces, the 1 means we have 1 piece.</p>
+            </div>
+        
+            <div class="slide " id="slide-2">
+                <h2>Cutting in Quarters</h2>
+                <img src="data:image/svg+xml;base64,CiAgICAgIDxzdmcgd2lkdGg9IjEwMjQiIGhlaWdodD0iMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgICAgICA8ZGVmcz4KICAgICAgICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojNGZhY2ZlO3N0b3Atb3BhY2l0eToxIiAvPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMwMGYyZmU7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICAgICAgICA8L2xpbmVhckdyYWRpZW50PgogICAgICAgICAgPG1hcmtlciBpZD0iYXJyb3doZWFkIiBtYXJrZXJXaWR0aD0iMTAiIG1hcmtlckhlaWdodD0iNyIgcmVmWD0iOSIgcmVmWT0iMy41IiBvcmllbnQ9ImF1dG8iPgogICAgICAgICAgICA8cG9seWdvbiBwb2ludHM9IjAgMCwgMTAgMy41LCAwIDciIGZpbGw9IndoaXRlIi8+CiAgICAgICAgICA8L21hcmtlcj4KICAgICAgICA8L2RlZnM+CiAgICAgICAgPHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNiZykiLz4KICAgICAgICA8Y2lyY2xlIGN4PSI1MTIiIGN5PSI1MTIiIHI9IjMwMCIgZmlsbD0iI2ZmZDkzZCIgc3Ryb2tlPSIjZmY2YjZiIiBzdHJva2Utd2lkdGg9IjgiLz4KICAgICAgICA8cGF0aCBkPSJNNTEyLDIwMCBMNTEyLDgyNCBNMjAwLDUxMiBMODI0LDUxMiBNMjAwLDIwMCBMODI0LDgyNCBNODI0LDIwMCBMMjAwLDgyNCIgc3Ryb2tlPSIjZmY2YjZiIiBzdHJva2Utd2lkdGg9IjYiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8cGF0aCBkPSJNMjAwLDIwMCBMNTEyLDIwMCBMNTEyLDUxMiBMMjAwLDUxMiBaIiBmaWxsPSIjZmY2YjZiIiBvcGFjaXR5PSIwLjMiLz4KICAgICAgICA8Y2lyY2xlIGN4PSI0MDAiIGN5PSI0MDAiIHI9IjEyIiBmaWxsPSIjZmY2YjZiIi8+CiAgICAgICAgPGNpcmNsZSBjeD0iNjI0IiBjeT0iNDAwIiByPSIxMiIgZmlsbD0iI2ZmNmI2YiIvPgogICAgICAgIDxjaXJjbGUgY3g9IjQwMCIgY3k9IjYyNCIgcj0iMTIiIGZpbGw9IiNmZjZiNmIiLz4KICAgICAgICA8Y2lyY2xlIGN4PSI2MjQiIGN5PSI2MjQiIHI9IjEyIiBmaWxsPSIjZmY2YjZiIi8+CiAgICAgICAgPGNpcmNsZSBjeD0iNTEyIiBjeT0iNTEyIiByPSIxMiIgZmlsbD0iI2ZmNmI2YiIvPgogICAgICAgIDx0ZXh0IHg9IjUxMiIgeT0iMjAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNzIiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0iYm9sZCI+CiAgICAgICAgICAxLzQKICAgICAgICA8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iNTEyIiB5PSI4NTAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPgogICAgICAgICAgUGl6emEgRnJhY3Rpb25zCiAgICAgICAgPC90ZXh0PgogICAgICA8L3N2Zz4KICAgIA==" alt="Cutting in Quarters">
+                <p>Now I'm cutting it into 4 equal pieces. Each piece is 1/4. The 4 means 4 total pieces, the 1 means we have 1 piece.</p>
+            </div>
+        
+        
+        <div class="script-display" id="scriptDisplay" style="display: none;">
+            <h3>Narration Script:</h3>
+            <p>Let's learn about fractions! A fraction shows parts of a whole. Look at this pizza - it's one whole pizza, which we write as 1/1. Now I'm cutting it in half. Each piece is 1/2 - that means 1 out of 2 pieces. The 2 at the bottom tells us there are 2 total pieces, and the 1 at the top tells us we have 1 piece. Now I'm cutting the pizza into 4 equal pieces. Each piece is 1/4 - that's 1 out of 4 pieces. Notice that 1/2 is bigger than 1/4 because half a pizza is bigger than a quarter of a pizza. That's how fractions work!</p>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 3;
+        let scriptVisible = false;
+        let isPlaying = false;
+        let speechSynthesis = window.speechSynthesis;
+        let currentUtterance = null;
+        const hasAudio = true;
+        const audioPlayer = document.getElementById('audioPlayer');
+        
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach(slide => slide.classList.remove('active'));
+            
+            if (n >= totalSlides) currentSlide = 0;
+            if (n < 0) currentSlide = totalSlides - 1;
+            
+            slides[currentSlide].classList.add('active');
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+            
+            // Update button states
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            if (prevBtn) prevBtn.disabled = currentSlide === 0;
+            if (nextBtn) nextBtn.disabled = currentSlide === totalSlides - 1;
+            
+            // Stop current speech and speak new slide content
+            if (isPlaying) {
+                speakCurrentSlide();
+            }
+        }
+        
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        }
+        
+        function previousSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        }
+        
+        function speakCurrentSlide() {
+            if (currentUtterance) {
+                speechSynthesis.cancel();
+            }
+            
+            const currentSlideElement = document.querySelector('.slide.active');
+            if (currentSlideElement) {
+                const title = currentSlideElement.querySelector('h2').textContent;
+                const content = currentSlideElement.querySelector('p').textContent;
+                const textToSpeak = `${title}. ${content}`;
+                
+                currentUtterance = new SpeechSynthesisUtterance(textToSpeak);
+                currentUtterance.rate = 0.8;
+                currentUtterance.pitch = 1;
+                currentUtterance.volume = 0.8;
+                
+                // Try to use a more natural voice
+                const voices = speechSynthesis.getVoices();
+                const preferredVoice = voices.find(voice => 
+                    voice.name.includes('Google') || 
+                    voice.name.includes('Microsoft') ||
+                    voice.lang.startsWith('en')
+                );
+                if (preferredVoice) {
+                    currentUtterance.voice = preferredVoice;
+                }
+                
+                speechSynthesis.speak(currentUtterance);
+            }
+        }
+        
+        function toggleAudio() {
+            const audioBtn = document.getElementById('audioBtn');
+            
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                audioBtn.textContent = 'Pause Audio';
+            } else {
+                audioPlayer.pause();
+                audioBtn.textContent = 'Play Audio';
+            }
+        }
+        
+        function toggleVoiceover() {
+            const voiceBtn = document.getElementById('voiceBtn');
+            
+            if (isPlaying) {
+                speechSynthesis.cancel();
+                voiceBtn.textContent = 'Play Voiceover';
+                isPlaying = false;
+            } else {
+                speakCurrentSlide();
+                voiceBtn.textContent = 'Stop Voiceover';
+                isPlaying = true;
+            }
+        }
+        
+        function toggleScript() {
+            const scriptDisplay = document.getElementById('scriptDisplay');
+            const scriptBtn = document.getElementById('scriptBtn');
+            
+            if (scriptVisible) {
+                scriptDisplay.style.display = 'none';
+                scriptBtn.textContent = 'Show Script';
+                scriptVisible = false;
+            } else {
+                scriptDisplay.style.display = 'block';
+                scriptBtn.textContent = 'Hide Script';
+                scriptVisible = true;
+            }
+        }
+        
+        // Keyboard controls
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+            if (e.key === ' ') {
+                e.preventDefault();
+                if (hasAudio) {
+                    toggleAudio();
+                } else {
+                    toggleVoiceover();
+                }
+            }
+            if (e.key === 's' || e.key === 'S') {
+                e.preventDefault();
+                toggleScript();
+            }
+        });
+        
+        // Custom Audio Player Functions
+        let isPlaying = false;
+        
+        function togglePlayPause() {
+            const audioPlayer = document.getElementById('audioPlayer');
+            const playIcon = document.getElementById('playIcon');
+            
+            if (isPlaying) {
+                audioPlayer.pause();
+                playIcon.textContent = '▶️';
+                isPlaying = false;
+            } else {
+                audioPlayer.play();
+                playIcon.textContent = '⏸️';
+                isPlaying = true;
+            }
+        }
+        
+        function seekTo(event) {
+            const audioPlayer = document.getElementById('audioPlayer');
+            const progressBar = document.getElementById('progressBar');
+            const rect = progressBar.getBoundingClientRect();
+            const clickX = event.clientX - rect.left;
+            const width = rect.width;
+            const percentage = clickX / width;
+            const newTime = percentage * audioPlayer.duration;
+            
+            audioPlayer.currentTime = newTime;
+        }
+        
+        function setVolume(value) {
+            const audioPlayer = document.getElementById('audioPlayer');
+            audioPlayer.volume = value;
+        }
+        
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return mins + ':' + (secs < 10 ? '0' : '') + secs;
+        }
+        
+        // Initialize custom audio player
+        if (hasAudio && audioPlayer) {
+            const playIcon = document.getElementById('playIcon');
+            const currentTimeEl = document.getElementById('currentTime');
+            const durationEl = document.getElementById('duration');
+            const progressFill = document.getElementById('progressFill');
+            
+            audioPlayer.addEventListener('loadedmetadata', function() {
+                durationEl.textContent = formatTime(audioPlayer.duration);
+            });
+            
+            audioPlayer.addEventListener('timeupdate', function() {
+                currentTimeEl.textContent = formatTime(audioPlayer.currentTime);
+                const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                progressFill.style.width = progress + '%';
+                
+                // Auto-advance slides based on audio progress
+                const slideDuration = audioPlayer.duration / totalSlides;
+                const newSlide = Math.floor(audioPlayer.currentTime / slideDuration);
+                if (newSlide !== currentSlide && newSlide < totalSlides) {
+                    currentSlide = newSlide;
+                    showSlide(currentSlide);
+                }
+            });
+            
+            audioPlayer.addEventListener('ended', function() {
+                playIcon.textContent = '▶️';
+                isPlaying = false;
+            });
+        } else {
+            // Fallback: Auto-advance slides every 15 seconds
+            setInterval(() => {
+                if (currentSlide < totalSlides - 1) {
+                    nextSlide();
+                }
+            }, 15000);
+        }
+        
+        // Initialize
+        showSlide(0);
+        
+        // Load voices when they become available
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = function() {
+                // Voices loaded
+            };
+        }
+    </script>
+</body>
+</html>

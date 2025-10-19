@@ -1,0 +1,21 @@
+
+      <svg width="1024" height="1024" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#bg)"/>
+        <circle cx="512" cy="400" r="100" fill="white" opacity="0.3"/>
+        <text x="512" y="500" font-family="Arial, sans-serif" font-size="48" fill="white" text-anchor="middle" font-weight="bold">
+          📚
+        </text>
+        <text x="512" y="700" font-family="Arial, sans-serif" font-size="24" fill="white" text-anchor="middle">
+          Educational Content
+        </text>
+        <text x="512" y="750" font-family="Arial, sans-serif" font-size="18" fill="white" text-anchor="middle">
+          A cheerful cartoon square character with a big smi...
+        </text>
+      </svg>
+    
