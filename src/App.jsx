@@ -67,46 +67,28 @@ function App() {
     }, 1500);
   };
 
-  const handleGenerate = async () => {
-  setStatus("generating");
-  setProgress(0);
-  setError("");
-  setVideoUrl("");
-  setJobId("");
+  const handleGenerate = () => {
+    setStatus("generating");
+    setProgress(0);
+    setError("");
+    setVideoUrl("");
+    setJobId("");
 
-  if (!selectedFace || !selectedTopic) {
-    setStatus("error");
-    setError("Please select a face and a topic.");
-    return;
-  }
-
-  try {
-    // ✅ match backend route exactly
-    const res = await fetch('/api/generate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        topic: selectedTopic,     // backend expects "topic"
-        character: selectedFace,  // backend expects "character"
-      }),
-    });
-
-    if (!res.ok) {
-      const text = await res.text().catch(() => '');
-      throw new Error(`Request failed (${res.status}) — ${text || 'no body'}`);
+    if (!selectedFace || !selectedTopic) {
+      setStatus("error");
+      setError("Please select a face and a topic.");
+      return;
     }
 
-    const data = await res.json();
-    const url = data.fileUrl || data.videoUrl; // backend returns { fileUrl }
-    if (!url) throw new Error('Unexpected server response (missing fileUrl/videoUrl).');
-
-    setVideoUrl(url);   // e.g. "/videos/face-1_topic-3.mp4" (Vite proxy serves it)
-    setStatus('ready');
-  } catch (err) {
-    setStatus("error");
-    setError(err.message || "Something went wrong.");
-  }
-};
+    // Simulate loading for better UX
+    setTimeout(() => {
+      // Construct the video path based on selected face and topic
+      // Videos are named like: face-1_topic-1.mp4, face-2_topic-3.mp4, etc.
+      const videoPath = `/videos/${selectedFace}_${selectedTopic}.mp4`;
+      setVideoUrl(videoPath);
+      setStatus('ready');
+    }, 1000);
+  };
 
 
 
@@ -116,7 +98,7 @@ function App() {
 
   return (
     <div className="App" style={{ textAlign: "center", padding: "2rem", maxWidth: 980, margin: "0 auto" }}>
-      <h1>Cartoon Learning App</h1>
+      <h1>Learnie</h1>
       <p style={{ color: '#555', marginTop: 0 }}>Pick a face and a topic, optionally add instructions, then generate.</p>
 
       {/* FACE PICKER */}
@@ -133,6 +115,7 @@ function App() {
                 borderRadius: 10,
                 border: selectedFace === face.id ? '2px solid #111' : '1px solid #ddd',
                 background: selectedFace === face.id ? '#f3f4f6' : '#fff',
+                color: '#000',
                 cursor: isBusy ? 'not-allowed' : 'pointer',
                 boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
               }}
@@ -158,6 +141,7 @@ function App() {
                 borderRadius: 10,
                 border: selectedTopic === topic.id ? '2px solid #111' : '1px solid #ddd',
                 background: selectedTopic === topic.id ? '#f3f4f6' : '#fff',
+                color: '#000',
                 cursor: isBusy ? 'not-allowed' : 'pointer',
                 boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
               }}
@@ -181,6 +165,7 @@ function App() {
         />
       </section>
 
+
       {/* GENERATE BUTTON */}
       <div style={{ marginTop: 8 }}>
         <button
@@ -190,8 +175,8 @@ function App() {
             padding: '0.7rem 1.1rem',
             borderRadius: 12,
             border: '1px solid #111',
-            background: readyToGenerate ? '#111' : '#aaa',
-            color: '#fff',
+            background: readyToGenerate ? '#f0f0f0' : '#aaa',
+            color: '#000',
             cursor: readyToGenerate ? 'pointer' : 'not-allowed',
             minWidth: 200
           }}
@@ -226,20 +211,20 @@ function App() {
       {/* Video Player */}
       {videoUrl && (
         <div style={{ marginTop: '1.5rem' }}>
-          <video src={videoUrl} controls width={640} style={{ maxWidth: '100%', borderRadius: 12 }} />
+          <video 
+            src={videoUrl} 
+            controls 
+            width={640} 
+            style={{ maxWidth: '100%', borderRadius: 12 }} 
+          />
           <div style={{ marginTop: 8 }}>
-            <a href={videoUrl} download style={{ fontSize: 14 }}>Download video</a>
+            <p style={{ fontSize: 14, color: '#666' }}>
+              Playing: {faceTitle} — {topicTitle}
+            </p>
           </div>
         </div>
       )}
 
-      {/* Debug */}
-      <div style={{ marginTop: 24, opacity: 0.6 }}>
-        <small>
-          Proxy base: <code>{API_PREFIX}</code>
-          {jobId ? (<><span> • Job: </span><code>{jobId}</code></>) : null}
-        </small>
-      </div>
     </div>
   );
 }
